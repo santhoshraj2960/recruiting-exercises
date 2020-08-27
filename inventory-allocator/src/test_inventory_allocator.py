@@ -67,16 +67,24 @@ class MyTestCase(unittest.TestCase):
         res = inventory_allocator_object.get_efficient_way_to_fulfil_order(orders)
         self.assertEqual(res, expected_res)
 
-    def test_item_name_case_mismatch(self):
-        warehouses = [{"name": "owd", "inventory": {"aPPLe": 5}}]
-        orders = {"ApplE": 5}
+    def test_empty_warehouse(self):
+        warehouses = []
+        orders = {"apple": 5}
         inventory_allocator_object = InventoryAllocator(warehouses)
-        expected_res = {'owd': {'ApplE': 5}}
+        expected_res = []
         res = inventory_allocator_object.get_efficient_way_to_fulfil_order(orders)
         self.assertEqual(res, expected_res)
 
     def test_empty_order(self):
         warehouses = [{"name": "owd", "inventory": {"apple": 5}}]
+        orders = {}
+        inventory_allocator_object = InventoryAllocator(warehouses)
+        expected_res = []
+        res = inventory_allocator_object.get_efficient_way_to_fulfil_order(orders)
+        self.assertEqual(res, expected_res)
+
+    def test_empty_order_empty_warehouse(self):
+        warehouses = []
         orders = {}
         inventory_allocator_object = InventoryAllocator(warehouses)
         expected_res = []
@@ -99,19 +107,11 @@ class MyTestCase(unittest.TestCase):
         res = inventory_allocator_object.get_efficient_way_to_fulfil_order(orders)
         self.assertEqual(res, expected_res)
 
-    def test_empty_order_empty_warehouse(self):
-        warehouses = []
-        orders = {}
+    def test_item_name_case_mismatch(self):
+        warehouses = [{"name": "owd", "inventory": {"aPPLe": 5}}]
+        orders = {"ApplE": 5}
         inventory_allocator_object = InventoryAllocator(warehouses)
-        expected_res = []
-        res = inventory_allocator_object.get_efficient_way_to_fulfil_order(orders)
-        self.assertEqual(res, expected_res)
-
-    def test_empty_warehouse(self):
-        warehouses = []
-        orders = {"apple": 5}
-        inventory_allocator_object = InventoryAllocator(warehouses)
-        expected_res = []
+        expected_res = {'owd': {'ApplE': 5}}
         res = inventory_allocator_object.get_efficient_way_to_fulfil_order(orders)
         self.assertEqual(res, expected_res)
 
