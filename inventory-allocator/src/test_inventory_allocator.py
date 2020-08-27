@@ -2,7 +2,7 @@ import unittest
 from inventory_allocator import InventoryAllocator
 
 
-class MyTestCase(unittest.TestCase):
+class InventoryAllocatorTests(unittest.TestCase):
     def test_fetch_single_item_from_single_warehouse(self):
         warehouses = [{"name": "owd", "inventory": {"apple": 5}}]
         orders = {"apple": 3}
