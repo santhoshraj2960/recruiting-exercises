@@ -5,9 +5,9 @@ from inventory_allocator import InventoryAllocator
 class MyTestCase(unittest.TestCase):
     def test_fetch_single_item_from_single_warehouse(self):
         warehouses = [{"name": "owd", "inventory": {"apple": 5}}]
-        orders = {"apple": 5}
+        orders = {"apple": 3}
         inventory_allocator_object = InventoryAllocator(warehouses)
-        expected_res = {'owd': {'apple': 5}}
+        expected_res = {'owd': {'apple': 3}}
         res = inventory_allocator_object.get_efficient_way_to_fulfil_order(orders)
         self.assertEqual(res, expected_res)
 
@@ -32,6 +32,14 @@ class MyTestCase(unittest.TestCase):
         orders = {"apple": 5, "banana": 5, "orange": 5}
         inventory_allocator_object = InventoryAllocator(warehouses)
         expected_res = {'owd': {'apple': 5, 'orange': 5}, 'dm': {'banana': 5}}
+        res = inventory_allocator_object.get_efficient_way_to_fulfil_order(orders)
+        self.assertEqual(res, expected_res)
+
+    def test_exact_match_for_quantity(self):
+        warehouses = [{"name": "owd", "inventory": {"apple": 5}}]
+        orders = {"apple": 5}
+        inventory_allocator_object = InventoryAllocator(warehouses)
+        expected_res = {'owd': {'apple': 5}}
         res = inventory_allocator_object.get_efficient_way_to_fulfil_order(orders)
         self.assertEqual(res, expected_res)
 
@@ -64,6 +72,46 @@ class MyTestCase(unittest.TestCase):
         orders = {"ApplE": 5}
         inventory_allocator_object = InventoryAllocator(warehouses)
         expected_res = {'owd': {'ApplE': 5}}
+        res = inventory_allocator_object.get_efficient_way_to_fulfil_order(orders)
+        self.assertEqual(res, expected_res)
+
+    def test_empty_order(self):
+        warehouses = [{"name": "owd", "inventory": {"apple": 5}}]
+        orders = {}
+        inventory_allocator_object = InventoryAllocator(warehouses)
+        expected_res = []
+        res = inventory_allocator_object.get_efficient_way_to_fulfil_order(orders)
+        self.assertEqual(res, expected_res)
+
+    def test_none_type_order(self):
+        warehouses = [{"name": "owd", "inventory": {"apple": 5}}]
+        orders = None
+        inventory_allocator_object = InventoryAllocator(warehouses)
+        expected_res = []
+        res = inventory_allocator_object.get_efficient_way_to_fulfil_order(orders)
+        self.assertEqual(res, expected_res)
+
+    def test_malformed_order(self):
+        warehouses = [{"name": "owd", "inventory": {"apple": 5}}]
+        orders = "apple: 5"
+        inventory_allocator_object = InventoryAllocator(warehouses)
+        expected_res = []
+        res = inventory_allocator_object.get_efficient_way_to_fulfil_order(orders)
+        self.assertEqual(res, expected_res)
+
+    def test_empty_order_empty_warehouse(self):
+        warehouses = []
+        orders = {}
+        inventory_allocator_object = InventoryAllocator(warehouses)
+        expected_res = []
+        res = inventory_allocator_object.get_efficient_way_to_fulfil_order(orders)
+        self.assertEqual(res, expected_res)
+
+    def test_empty_warehouse(self):
+        warehouses = []
+        orders = {"apple": 5}
+        inventory_allocator_object = InventoryAllocator(warehouses)
+        expected_res = []
         res = inventory_allocator_object.get_efficient_way_to_fulfil_order(orders)
         self.assertEqual(res, expected_res)
 

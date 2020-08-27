@@ -21,6 +21,9 @@ class InventoryAllocator:
     def get_efficient_way_to_fulfil_order(self, order_details):
         efficient_way_to_fetch_order_items_dict = defaultdict(dict)
 
+        if (type(order_details) != dict) or (not order_details) or (not self.all_warehouse_details):
+            return []
+
         for item_name, quantity in order_details.items():
             if quantity < 0:
                 return []
