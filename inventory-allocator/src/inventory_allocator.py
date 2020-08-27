@@ -9,8 +9,9 @@ class InventoryAllocator:
     def pre_process_warehouse_item_details(self):
         for warehouse_details in self.all_warehouse_details:
             items_in_warehouse = warehouse_details['inventory']
+            copy_of_items_in_warehouse = items_in_warehouse.copy()  # creating a copy because we cannot modify a dictionary while iterating it
 
-            for item_name, quantity in items_in_warehouse.items():
+            for item_name, quantity in copy_of_items_in_warehouse.items():
                 if item_name.lower() == item_name:
                     pass
                 else:
